@@ -44,7 +44,7 @@ int main (int argc, char *argv[]) {
           cookie = argv[i+1];
           break;
         case 'p':
-          serverPort = htons(atoi(argv[i+1]));
+          serverPort =atoi(argv[i+1]);
           break;
         default:
           break;
