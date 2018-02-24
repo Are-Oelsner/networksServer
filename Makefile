@@ -1,6 +1,6 @@
 default:
-	gcc -Wall Project1Client.cpp -o Project1Client
-	gcc -Wall Project1Server.cpp -o Project1Server
+	gcc -Wall Project1Client.cpp -std=c++11 -o Project1Client
+	gcc -Wall Project1Server.cpp -std=c++11 -o Project1Server
 
 client:
 	./Project1Client -f Are -l Oelsner
@@ -13,6 +13,12 @@ client42:
 
 clientA:
 	./Project1Client -f Are -l Oelsner -s :172.29.170.209:31201
+
+client41n:
+	./Project1Client -f Are -l Oelsner -s :mathcs04:31201
+
+client41n1:
+	./Project1Client -f Are -l Oelsner -s mathcs04:31201
 
 server:
 	./Project1Server -s MYCOOKIE -p 31201

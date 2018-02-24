@@ -1,1 +1,4 @@
 comment more, make changes to recv code in client
+getHostByName function:w
+fix reading in host names
+

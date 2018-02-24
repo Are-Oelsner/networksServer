@@ -14,6 +14,7 @@ int main (int argc, char *argv[]) {
   char *serverHost = (char *)SERVER_HOST;
   unsigned short serverPort = atoi(SERVER_PORT);
   char *servPortString;
+
   char c;
   int i;
 
@@ -30,13 +31,13 @@ int main (int argc, char *argv[]) {
        * argument to get the value of 
        * the option */
       switch (c) {
-        case 'f':
+        case 'f':                 // First name case
           firstName = argv[i+1];
           break;
-        case 'l':
+        case 'l':                 // Last name case
           lastName = argv[i+1];
           break;
-        case 's':
+        case 's':                 // Host and Port case
           serverHost = strtok(argv[i+1],":");
           if ((servPortString = strtok(NULL, ":")) != NULL) {
             serverPort = atoi(servPortString);
@@ -48,7 +49,12 @@ int main (int argc, char *argv[]) {
     }
   }
 
-  printf("IP: %s\tPort: %u\n", serverHost, serverPort);
+  hostent* remoteHost;
+  char* hostName = serverHost;
+  unsigned int addr;
+
+
+  printf("Host: %s\tPort: %u\n", serverHost, serverPort);
 
   /* Networking code starts here */
   /// Variables
@@ -70,7 +76,24 @@ int main (int argc, char *argv[]) {
   memset(&m_sockaddr_in, 0, sizeof(m_sockaddr_in));       // Zeros out structure
   m_sockaddr_in.sin_family = AF_INET;                     // Internet protocol 
   m_sockaddr_in.sin_port = htons(serverPort);             // Address port 16 bits
-  m_sockaddr_in.sin_addr.s_addr = inet_addr(serverHost);  // Internet Address 32 bits
+
+  // Handles both IP and name address input
+  // www.cplusplus.com/forum/general/92837/
+  if(isalpha(hostName[0])) {// Host address is a name
+    if(hostName[strlen(hostName)-1] == '\n') 
+      hostName[strlen(hostName)-1] = '\0';
+    remoteHost = gethostbyname(hostName);
+  //in_addr_t address = (in_addr_t)(remoteHost->h_addr);
+  //m_sockaddr_in.sin_addr.s_addr = address;  // Internet Address 32 bits
+  printf("Name: %u\n", *remoteHost->h_addr);
+  //printf("Name: %s, \t addr: %u\n", remoteHost->h_addr, address);
+  }
+  else { // Host address is address
+    addr = inet_addr(hostName);   // converts format of address to binary
+    remoteHost = gethostbyaddr((char *)&addr, 4, AF_INET);
+    m_sockaddr_in.sin_addr.s_addr = addr;  // Internet Address 32 bits
+    printf("Address: %s, \t addr: %u\n", hostName, addr);
+  }
 
 
   /// Establish a connection to the server
@@ -83,11 +106,11 @@ int main (int argc, char *argv[]) {
   // Creates HELLO message
   char * m_vers = (char*)"CS332 ";
   char * m_type = (char*)"HELLO ";
-  strcpy(m_msg, m_vers);
-  strcat(m_msg, m_type);
-  strcat(m_msg, firstName);
+  strcpy(m_msg, m_vers);            // Sets version field
+  strcat(m_msg, m_type);            // Sets type field
+  strcat(m_msg, firstName);         // Sets first name field
   strcat(m_msg, " ");
-  strcat(m_msg, lastName);
+  strcat(m_msg, lastName);          // Sets last name field
   strcat(m_msg, "\n");
   //printf("Hello message: %s/n", m_msg);
 

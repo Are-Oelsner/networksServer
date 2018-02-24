@@ -4,6 +4,8 @@
 #include <stdlib.h>     /* for atoi() */
 #include <string.h>     /* for memset() */
 #include <unistd.h>     /* for close() */
+#include <netdb.h>
+#include <cctype>
 
 #include "DieWithError.c"
 
