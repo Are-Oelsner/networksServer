@@ -8,6 +8,9 @@ client:
 client41:
 	./Project1Client -f Are -l Oelsner -s :141.166.207.147:31201
 
+client41d:
+	./Project1Client -f Are -l Oelsner -s mathcs04:31201
+
 client42:
 	./Project1Client -f Are -l Oelsner -s :141.166.207.147:31202
 

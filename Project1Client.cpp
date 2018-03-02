@@ -88,7 +88,7 @@ int main (int argc, char *argv[]) {
   //remoteHost = gethostbyname(hostName);
   //in_addr_t address = (in_addr_t)(remoteHost->h_addr);
   //m_sockaddr_in.sin_addr.s_addr = address;  // Internet Address 32 bits
-    printf("Name: %u\n", *remoteHost->h_addr);
+    printf("Name: %u\n", *remoteHost->h_addr_list[0]);
   //printf("Name: %s, \t addr: %u\n", remoteHost->h_addr, address);
   }
   else { // Host address is address
