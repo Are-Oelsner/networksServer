@@ -49,6 +49,7 @@ int main (int argc, char *argv[]) {
     }
   }
 
+
   hostent* remoteHost;
   char* hostName = serverHost;
   unsigned int addr;
@@ -79,13 +80,15 @@ int main (int argc, char *argv[]) {
 
   // Handles both IP and name address input
   // www.cplusplus.com/forum/general/92837/
-  if(isalpha(hostName[0])) {// Host address is a name
-    if(hostName[strlen(hostName)-1] == '\n') 
-      hostName[strlen(hostName)-1] = '\0';
-    remoteHost = gethostbyname(hostName);
+  if((remoteHost = gethostbyname(hostName)) != NULL) {
+    m_sockaddr_in.sin_addr.s_addr =  *((unsigned long *) remoteHost->h_addr_list[0]);
+  //if(isalpha(hostName[0])) {// Host address is a name
+  //if(hostName[strlen(hostName)-1] == '\n') 
+  //  hostName[strlen(hostName)-1] = '\0';
+  //remoteHost = gethostbyname(hostName);
   //in_addr_t address = (in_addr_t)(remoteHost->h_addr);
   //m_sockaddr_in.sin_addr.s_addr = address;  // Internet Address 32 bits
-  printf("Name: %u\n", *remoteHost->h_addr);
+    printf("Name: %u\n", *remoteHost->h_addr);
   //printf("Name: %s, \t addr: %u\n", remoteHost->h_addr, address);
   }
   else { // Host address is address
